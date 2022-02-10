@@ -6,4 +6,5 @@ export const SubjectContainer = styled.div`
     margin: 5px 0px;
     cursor: pointer;
     background-color: ${props => props.color};
+    transition: background-color 0.2s ease-out;
 `;

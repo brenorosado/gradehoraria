@@ -14,8 +14,3 @@ export const HomeMain = styled.main`
         justify-content: space-evenly;
     }
 `;
-
-export const Semester = styled.div`
-    width: 180px;
-    ${'' /* border: 1px solid red; */}
-`;
