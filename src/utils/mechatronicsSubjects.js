@@ -450,7 +450,7 @@ export const mechatronicsSubjects = {
     optativa4: {
         key: "optativa4",
         name: 'Optativa 4',
-        hours: 72,
+        hours: 36,
         completed: false,
         preRequisites: [],
         semester: 10,
