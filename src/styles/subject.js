@@ -7,4 +7,13 @@ export const SubjectContainer = styled.div`
     cursor: pointer;
     background-color: ${props => props.color};
     transition: background-color 0.2s ease-out;
+
+    h4 {
+        word-break: break-all;
+        font-size: 16px;
+    }
+
+    span {
+        word-break: break-all;
+    }
 `;

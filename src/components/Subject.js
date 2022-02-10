@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { SubjectContainer } from '../styles/subject';
 
 const Subject = ({ subject, subjectKey, subjects, setSubjects }) => {
@@ -7,9 +8,20 @@ const Subject = ({ subject, subjectKey, subjects, setSubjects }) => {
 
     preRequisites.map(item => {
         const { completed } = Object.values(subjects).find(({ name }) => name === item);
-        console.log('completed', completed);
         if (!completed) preRequisitesNotCompleted.push(item);
     });
+
+    useEffect(() => {
+        if (preRequisitesNotCompleted.length > 0) {
+            setSubjects(prevSubjects => ({
+                ...prevSubjects,
+                [subjectKey]: {
+                    ...subject,
+                    completed: false,
+                }
+            }));
+        };
+    }, [subjects]);
 
     return (
         <SubjectContainer
