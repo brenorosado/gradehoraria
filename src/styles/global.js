@@ -9,6 +9,6 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     body {
-        overflow-x: scroll;
+        background: #1e1e1e;
     }
 `;

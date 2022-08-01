@@ -69,6 +69,23 @@ const Home = () => {
         <div>
           <h3>Carga horária cursada: {totalCoursedHours}h</h3>
         </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "20px" }}>
+          <h4>Legenda: </h4>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              <div style={{ width: "20px", height: "20px", background: "lightyellow", borderRadius: "5px" }}></div>
+              <span>Matérias disponíveis</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              <div style={{ width: "20px", height: "20px", background: "lightgreen", borderRadius: "5px" }}></div>
+              <span>Matérias cursadas</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              <div style={{ width: "20px", height: "20px", background: "lightcoral", borderRadius: "5px" }}></div>
+              <span>Matérias indisponíveis</span>
+            </div>
+          </div>
+        </div>
         <section>
           <SemesterSubjects semester={1} subjects={subjects.filter(subject => subject.semester === 1)} updateSubjects={updateSubjects} />
           <SemesterSubjects semester={2} subjects={subjects.filter(subject => subject.semester === 2)} updateSubjects={updateSubjects} />

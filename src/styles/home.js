@@ -7,11 +7,13 @@ export const HomeMain = styled.main`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: white;
     
     h1 {
         text-align: center;
         margin-bottom: 30px;
         font-size: 22px;
+        color: white;
 
         ${media.tablet`
             font-size: 30px;
@@ -26,6 +28,7 @@ export const HomeMain = styled.main`
         grid-row-gap: 20px;
         grid-column-gap: 5px;
         justify-content: center;
+        color: white;
 
         ${media.tablet`
             grid-template-columns: repeat(4, 180px);
