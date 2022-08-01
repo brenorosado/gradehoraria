@@ -1,17 +1,62 @@
 import SemesterSubjects from "../src/components/SemesterSubjects";
 import { mechatronicsSubjects } from "../src/utils/mechatronicsSubjects";
 import { HomeMain } from "../src/styles/home";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 
 const Home = () => {
   const [subjects, setSubjects] = useState(mechatronicsSubjects);
+  const [totalCoursedHours, setTotalCoursedHours] = useState(0);
 
-  let totoalCoursedHours = 0;
+  useEffect(() => {
+    if(subjects.length > 0) {
+      let count = 0;
 
-  Object.values(subjects).map(item => {
-    if (item.completed) totoalCoursedHours = totoalCoursedHours + item.hours;
-  });
+      subjects.forEach(subject => {
+        if(subject.completed && subject.available) count += subject.hours;
+      })
+
+      setTotalCoursedHours(count);
+    }
+  }, [subjects])
+
+  const updateSubjects = (subject) => {
+      const coursedSubjects = subjects.filter(item => {
+        if(item === subject && subject.completed) return false;
+        if(item.preRequisites.includes(subject.name) && subject.completed) return false;
+        return item.completed;
+      }).map(o => o.name);
+
+      if(!subject.completed) coursedSubjects.push(subject.name);
+      let index;
+      const newSubjects = subjects.map((item, itemIndex) => {
+        if(item === subject) index = itemIndex;
+        return item;
+      });
+
+      const response = newSubjects.map((item) => {
+        let mustBeAvailable = true;
+        item.preRequisites.forEach(preRequisite => {
+          if(!(coursedSubjects.includes(preRequisite))) mustBeAvailable = false;
+        });
+        if(mustBeAvailable) {
+          return {
+            ...item,
+            available: mustBeAvailable,
+          }
+        } else {
+          return {
+            ...item,
+            available: false,
+            completed: false
+          }
+
+        }
+      })
+
+      response[index].completed = !subject.completed;
+      setSubjects(response);
+    }
 
   return (
     <>
@@ -22,19 +67,19 @@ const Home = () => {
       <HomeMain>
         <h1>Estrutura curricular: Engenharia Mecatrônica - UFSJ</h1>
         <div>
-          <h3>Carga horária cursada: {totoalCoursedHours}h</h3>
+          <h3>Carga horária cursada: {totalCoursedHours}h</h3>
         </div>
         <section>
-          <SemesterSubjects semester={1} subjects={subjects} setSubjects={setSubjects} />
-          <SemesterSubjects semester={2} subjects={subjects} setSubjects={setSubjects} />
-          <SemesterSubjects semester={3} subjects={subjects} setSubjects={setSubjects} />
-          <SemesterSubjects semester={4} subjects={subjects} setSubjects={setSubjects} />
-          <SemesterSubjects semester={5} subjects={subjects} setSubjects={setSubjects} />
-          <SemesterSubjects semester={6} subjects={subjects} setSubjects={setSubjects} />
-          <SemesterSubjects semester={7} subjects={subjects} setSubjects={setSubjects} />
-          <SemesterSubjects semester={8} subjects={subjects} setSubjects={setSubjects} />
-          <SemesterSubjects semester={9} subjects={subjects} setSubjects={setSubjects} />
-          <SemesterSubjects semester={10} subjects={subjects} setSubjects={setSubjects} />
+          <SemesterSubjects semester={1} subjects={subjects.filter(subject => subject.semester === 1)} updateSubjects={updateSubjects} />
+          <SemesterSubjects semester={2} subjects={subjects.filter(subject => subject.semester === 2)} updateSubjects={updateSubjects} />
+          <SemesterSubjects semester={3} subjects={subjects.filter(subject => subject.semester === 3)} updateSubjects={updateSubjects} />
+          <SemesterSubjects semester={4} subjects={subjects.filter(subject => subject.semester === 4)} updateSubjects={updateSubjects} />
+          <SemesterSubjects semester={5} subjects={subjects.filter(subject => subject.semester === 5)} updateSubjects={updateSubjects} />
+          <SemesterSubjects semester={6} subjects={subjects.filter(subject => subject.semester === 6)} updateSubjects={updateSubjects} />
+          <SemesterSubjects semester={7} subjects={subjects.filter(subject => subject.semester === 7)} updateSubjects={updateSubjects} />
+          <SemesterSubjects semester={8} subjects={subjects.filter(subject => subject.semester === 8)} updateSubjects={updateSubjects} />
+          <SemesterSubjects semester={9} subjects={subjects.filter(subject => subject.semester === 9)} updateSubjects={updateSubjects} />
+          <SemesterSubjects semester={10} subjects={subjects.filter(subject => subject.semester === 10)} updateSubjects={updateSubjects}/>
         </section>
       </HomeMain>
     </>
