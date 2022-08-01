@@ -69,24 +69,24 @@ const Home = () => {
         <div>
           <h3>Carga horária cursada: {totalCoursedHours}h</h3>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "20px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", marginTop: "20px", flexWrap: "wrap" }}>
           <h4>Legenda: </h4>
           <div style={{ display: "flex", gap: "10px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-              <div style={{ width: "20px", height: "20px", background: "lightyellow", borderRadius: "5px" }}></div>
-              <span>Matérias disponíveis</span>
+              <div style={{ minWidth: "20px", minHeight: "20px", background: "lightyellow", borderRadius: "5px" }}></div>
+              <span>Disciplinas disponíveis</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-              <div style={{ width: "20px", height: "20px", background: "lightgreen", borderRadius: "5px" }}></div>
-              <span>Matérias cursadas</span>
+              <div style={{ minWidth: "20px", minHeight: "20px", background: "lightgreen", borderRadius: "5px" }}></div>
+              <span>Disciplinas cursadas</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-              <div style={{ width: "20px", height: "20px", background: "lightcoral", borderRadius: "5px" }}></div>
-              <span>Matérias indisponíveis</span>
+              <div style={{ minWidth: "20px", minHeight: "20px", background: "lightcoral", borderRadius: "5px" }}></div>
+              <span>Disciplinas indisponíveis</span>
             </div>
           </div>
         </div>
-        <section>
+        <section style={{ width: "100%", display: "flex", flexWrap: "wrap" }}>
           <SemesterSubjects semester={1} subjects={subjects.filter(subject => subject.semester === 1)} updateSubjects={updateSubjects} />
           <SemesterSubjects semester={2} subjects={subjects.filter(subject => subject.semester === 2)} updateSubjects={updateSubjects} />
           <SemesterSubjects semester={3} subjects={subjects.filter(subject => subject.semester === 3)} updateSubjects={updateSubjects} />
