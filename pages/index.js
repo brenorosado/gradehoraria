@@ -4,12 +4,31 @@ import { HomeMain } from "../src/styles/home";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 
+const semesters = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 const Home = () => {
   const [subjects, setSubjects] = useState(mechatronicsSubjects);
   const [totalCoursedHours, setTotalCoursedHours] = useState(0);
 
+  const saveSubjectsState = (e) => {
+    // e?.preventDefault();
+
+    if(subjects) localStorage.setItem("subjectsState", JSON.stringify(subjects));
+  }
+
+  const getSubjectsState = async () => {
+    if(window) {
+      const savedSubjectsState = await localStorage.getItem("subjectsState");
+      if(savedSubjectsState) setSubjects(JSON.parse(savedSubjectsState))
+    }
+  }
+
   useEffect(() => {
-    if(subjects.length > 0) {
+    getSubjectsState()
+  }, [])
+
+  useEffect(() => {
+    if(subjects?.length > 0) {
       let count = 0;
 
       subjects.forEach(subject => {
@@ -21,7 +40,7 @@ const Home = () => {
   }, [subjects])
 
   const updateSubjects = (subject) => {
-      const coursedSubjects = subjects.filter(item => {
+      const coursedSubjects = subjects?.filter(item => {
         if(item === subject && subject.completed) return false;
         if(item.preRequisites.includes(subject.name) && subject.completed) return false;
         return item.completed;
@@ -69,34 +88,55 @@ const Home = () => {
         <div>
           <h3>Carga horária cursada: {totalCoursedHours}h</h3>
         </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", marginTop: "20px", flexWrap: "wrap" }}>
-          <h4>Legenda: </h4>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-              <div style={{ minWidth: "20px", minHeight: "20px", background: "lightyellow", borderRadius: "5px" }}></div>
-              <span>Disciplinas disponíveis</span>
+        <div 
+          style={{ 
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            padding: "0 8px",
+            gap: "48px",
+            marginTop: "20px",
+          }}>
+          <div style={{ 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center", 
+            gap: "10px",
+            flexWrap: "wrap",
+            height: "100%"
+          }}>
+            <h4>Legenda: </h4>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                <div style={{ minWidth: "20px", minHeight: "20px", background: "lightyellow", borderRadius: "5px" }}></div>
+                <span>Disciplinas disponíveis</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                <div style={{ minWidth: "20px", minHeight: "20px", background: "lightgreen", borderRadius: "5px" }}></div>
+                <span>Disciplinas cursadas</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                <div style={{ minWidth: "20px", minHeight: "20px", background: "lightcoral", borderRadius: "5px" }}></div>
+                <span>Disciplinas indisponíveis</span>
+              </div>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-              <div style={{ minWidth: "20px", minHeight: "20px", background: "lightgreen", borderRadius: "5px" }}></div>
-              <span>Disciplinas cursadas</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-              <div style={{ minWidth: "20px", minHeight: "20px", background: "lightcoral", borderRadius: "5px" }}></div>
-              <span>Disciplinas indisponíveis</span>
-            </div>
+          </div>
+          
+          <div>
+            <button 
+              onClick={saveSubjectsState}
+              style={{ 
+                border: "none",
+                padding: "8px 24px",
+                borderRadius: "8px",
+                cursor: "pointer"
+              }}
+            >Salvar</button>
           </div>
         </div>
         <section style={{ width: "100%", display: "flex", flexWrap: "wrap" }}>
-          <SemesterSubjects semester={1} subjects={subjects.filter(subject => subject.semester === 1)} updateSubjects={updateSubjects} />
-          <SemesterSubjects semester={2} subjects={subjects.filter(subject => subject.semester === 2)} updateSubjects={updateSubjects} />
-          <SemesterSubjects semester={3} subjects={subjects.filter(subject => subject.semester === 3)} updateSubjects={updateSubjects} />
-          <SemesterSubjects semester={4} subjects={subjects.filter(subject => subject.semester === 4)} updateSubjects={updateSubjects} />
-          <SemesterSubjects semester={5} subjects={subjects.filter(subject => subject.semester === 5)} updateSubjects={updateSubjects} />
-          <SemesterSubjects semester={6} subjects={subjects.filter(subject => subject.semester === 6)} updateSubjects={updateSubjects} />
-          <SemesterSubjects semester={7} subjects={subjects.filter(subject => subject.semester === 7)} updateSubjects={updateSubjects} />
-          <SemesterSubjects semester={8} subjects={subjects.filter(subject => subject.semester === 8)} updateSubjects={updateSubjects} />
-          <SemesterSubjects semester={9} subjects={subjects.filter(subject => subject.semester === 9)} updateSubjects={updateSubjects} />
-          <SemesterSubjects semester={10} subjects={subjects.filter(subject => subject.semester === 10)} updateSubjects={updateSubjects}/>
+          {semesters.map(semester => <SemesterSubjects key={semester} semester={semester} subjects={subjects?.filter(subject => subject.semester === semester)} updateSubjects={updateSubjects} />)}
         </section>
       </HomeMain>
     </>
