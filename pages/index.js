@@ -97,6 +97,7 @@ const Home = () => {
             padding: "0 8px",
             gap: "48px",
             marginTop: "20px",
+            flexWrap: "wrap"
           }}>
           <div style={{ 
             display: "flex", 
